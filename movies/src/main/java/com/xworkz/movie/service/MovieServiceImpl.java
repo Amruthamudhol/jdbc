@@ -3,6 +3,7 @@ package com.xworkz.movie.service;
 import com.xworkz.movie.dao.MovieDetailsDAO;
 import com.xworkz.movie.dto.MovieDetailsDTO;
 
+import java.util.List;
 import java.util.Objects;
 
 public class MovieServiceImpl implements MovieService {
@@ -106,5 +107,10 @@ public class MovieServiceImpl implements MovieService {
         }
 
         return 0;
+    }
+
+    @Override
+    public List<MovieDetailsDTO> getMovieDetails() {
+        return movieDetailsDAO.getMovieDetails();
     }
 }

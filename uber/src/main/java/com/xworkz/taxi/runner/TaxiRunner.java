@@ -6,6 +6,8 @@ import com.xworkz.taxi.dto.TaxiDetailsDTO;
 import com.xworkz.taxi.service.TaxiService;
 import com.xworkz.taxi.service.TaxiServiceImpl;
 
+import java.util.List;
+
 public class TaxiRunner {
     public static void main(String[] args) {
 
@@ -54,5 +56,11 @@ public class TaxiRunner {
         dto3.setId(1);
         int deletedRows = service.validateAndDelete(dto3);
         System.out.println("Rows deleted: " + deletedRows);
+
+        List<TaxiDetailsDTO> taxiDetails = service.getTaxiDetails();
+        System.out.println("Taxi Details:");
+        for (TaxiDetailsDTO dto4 : taxiDetails) {
+            System.out.println(dto4);
+        }
     }
 }

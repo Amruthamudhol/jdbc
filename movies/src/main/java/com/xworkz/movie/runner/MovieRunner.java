@@ -6,6 +6,8 @@ import com.xworkz.movie.dto.MovieDetailsDTO;
 import com.xworkz.movie.service.MovieService;
 import com.xworkz.movie.service.MovieServiceImpl;
 
+import java.util.List;
+
 public class MovieRunner {
 
     public static void main(String[] args) {
@@ -52,5 +54,12 @@ public class MovieRunner {
         dto.setTicketPrice(300.0);
         int rowsUpdated = service.validateAndUpdate(dto);
         System.out.println("Rows Updated : " + rowsUpdated);
+
+        List<MovieDetailsDTO> movieDetails = service.getMovieDetails();
+        System.out.println("Movie Details:");
+
+        for (MovieDetailsDTO dto4 : movieDetails) {
+            System.out.println(dto4);
+        }
     }
 }

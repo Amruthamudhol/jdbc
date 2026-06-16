@@ -3,6 +3,7 @@ package com.xworkz.job.service;
 import com.xworkz.job.dao.JobPortalDAO;
 import com.xworkz.job.dto.JobPortalDTO;
 
+import java.util.List;
 import java.util.Objects;
 
 public class JobPortalServiceImpl implements JobPortalService{
@@ -71,5 +72,8 @@ public class JobPortalServiceImpl implements JobPortalService{
         return 0;
     }
 
-
+    @Override
+    public List<JobPortalDTO> getJobPortalDetails() {
+        return jobPortalDAO.getJobPortalDetails();
+    }
 }

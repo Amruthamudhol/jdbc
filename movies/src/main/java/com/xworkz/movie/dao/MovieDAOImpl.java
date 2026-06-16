@@ -2,10 +2,9 @@ package com.xworkz.movie.dao;
 
 import com.xworkz.movie.dto.MovieDetailsDTO;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MovieDAOImpl implements MovieDetailsDAO {
 
@@ -214,4 +213,43 @@ public class MovieDAOImpl implements MovieDetailsDAO {
         return rowsAffected;
     }
 
+
+    @Override
+    public List<MovieDetailsDTO> getMovieDetails() {
+
+        System.out.println("Invoking getMovieDetails");
+
+        List<MovieDetailsDTO> movieDetailsDTOList = new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/movie_db", "root", "4AI22CS005");
+            String query = "SELECT * FROM movie_details";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+
+                MovieDetailsDTO dto = new MovieDetailsDTO();
+
+                dto.setMovieName(resultSet.getString("movie_name"));
+                dto.setDirectorName(resultSet.getString("director_name"));
+                dto.setLanguage(resultSet.getString("language"));
+                dto.setTicketPrice(resultSet.getDouble("ticket_price"));
+
+                movieDetailsDTOList.add(dto);
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return movieDetailsDTOList;
+    }
 }

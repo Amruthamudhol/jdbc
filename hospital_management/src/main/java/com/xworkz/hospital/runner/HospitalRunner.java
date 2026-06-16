@@ -5,6 +5,8 @@ import com.xworkz.hospital.dto.HospitalDetailsDTO;
 import com.xworkz.hospital.service.HospitalService;
 import com.xworkz.hospital.service.HospitalServiceImpl;
 
+import java.util.List;
+
 public class HospitalRunner {
 
     public static  void main(String[] args) {
@@ -51,6 +53,13 @@ public class HospitalRunner {
         updatesDto.setConsultation(700.0);
         int rowsUpdated = service.validateAndUpdate(updateDto);
         System.out.println("Rows Updated : " + rowsUpdated);
+
+        List<HospitalDetailsDTO> hospitalDetails = service.getHospitalDetails();
+        System.out.println("Hospital Details:");
+
+        for (HospitalDetailsDTO dto4 : hospitalDetails) {
+            System.out.println(dto4);
+        }
 
     }
 }

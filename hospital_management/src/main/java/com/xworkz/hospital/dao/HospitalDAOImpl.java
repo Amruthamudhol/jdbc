@@ -2,10 +2,9 @@ package com.xworkz.hospital.dao;
 
 import com.xworkz.hospital.dto.HospitalDetailsDTO;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HospitalDAOImpl implements HospitalDetailsDAO {
 
@@ -19,7 +18,7 @@ public class HospitalDAOImpl implements HospitalDetailsDAO {
 
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital_db", "root", "4AI22CS005");
 
-            String insertQuery = "insert into hospital_details(patient_name,doctor_name,disease,consultation) values(?,?,?,?)";
+            String insertQuery = "insert into hospital_detail(patient_name,doctor_name,disease,consultation) values(?,?,?,?)";
 
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
 
@@ -57,7 +56,7 @@ public class HospitalDAOImpl implements HospitalDetailsDAO {
 
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital_db", "root", "4AI22CS005");
 
-            String updateQuery = "update hospital_details set consultation_fee=? where patient_name=?";
+            String updateQuery = "update hospital_detail set consultation_fee=? where patient_name=?";
 
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
             preparedStatement.setDouble(1, hospitalDetailsDTO.getConsultation());
@@ -92,7 +91,7 @@ public class HospitalDAOImpl implements HospitalDetailsDAO {
 
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital_db", "root", "4AI22CS005");
 
-            String deleteQuery = "delete from hospital_details where patient_name=?";
+            String deleteQuery = "delete from hospital_detail where patient_name=?";
             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
             preparedStatement.setString(1, hospitalDetailsDTO.getPatientName());
 
@@ -124,7 +123,7 @@ public class HospitalDAOImpl implements HospitalDetailsDAO {
 
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital_db", "root", "4AI22CS005");
 
-            String deleteQuery = "DELETE FROM hospital_details WHERE patient_name = ?";
+            String deleteQuery = "DELETE FROM hospital_detail WHERE patient_name = ?";
 
             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
             preparedStatement.setString(1, hospitalDetailsDTO.getPatientName());
@@ -151,7 +150,7 @@ public class HospitalDAOImpl implements HospitalDetailsDAO {
 
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital_db", "root", "4AI22CS005");
 
-            String insertQuery = "INSERT INTO hospital_details " + "(patient_name, doctor_name, disease, consultation) " + "VALUES (?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO hospital_detail " + "(patient_name, doctor_name, disease, consultation) " + "VALUES (?, ?, ?, ?)";
 
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
 
@@ -184,7 +183,7 @@ public class HospitalDAOImpl implements HospitalDetailsDAO {
 
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital_db", "root", "4AI22CS005");
 
-            String updateQuery = "UPDATE hospital_details SET consultation = ? WHERE patient_name = ?";
+            String updateQuery = "UPDATE hospital_detail SET consultation = ? WHERE patient_name = ?";
 
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
             preparedStatement.setDouble(1, hospitalDetailsDTO.getConsultation());
@@ -200,5 +199,44 @@ public class HospitalDAOImpl implements HospitalDetailsDAO {
         }
 
         return rowsAffected;
+    }
+
+    @Override
+    public List<HospitalDetailsDTO> getHospitalDetails() {
+
+        System.out.println("Invoking getHospitalDetails");
+
+        List<HospitalDetailsDTO> hospitalDetailsDTOList = new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospital_db", "root", "4AI22CS005");
+
+            String query = "SELECT * FROM hospital_detail";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+
+                HospitalDetailsDTO dto = new HospitalDetailsDTO();
+
+                dto.setPatientName(resultSet.getString("patient_name"));
+                dto.setDoctorName(resultSet.getString("doctor_name"));
+                dto.setDisease(resultSet.getString("disease"));
+                dto.setConsultation(resultSet.getDouble("consultation"));
+                hospitalDetailsDTOList.add(dto);
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return hospitalDetailsDTOList;
     }
 }

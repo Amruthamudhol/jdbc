@@ -3,6 +3,8 @@ package com.xworkz.job.dao;
 import com.xworkz.job.dto.JobPortalDTO;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JobPortalDAOImpl  implements JobPortalDAO{
     @Override
@@ -247,6 +249,42 @@ public class JobPortalDAOImpl  implements JobPortalDAO{
         }
 
         return rowsAffected;
+    }
+
+    @Override
+    public List<JobPortalDTO> getJobPortalDetails() {
+        System.out.println("Invoking getJobPortalDetails");
+        List<JobPortalDTO> jobPortalDTOList = new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jobportal_db", "root", "4AI22CS005");
+            String query = "SELECT * FROM candidate_details";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+
+                JobPortalDTO dto = new JobPortalDTO();
+
+                dto.setCandidateName(resultSet.getString("candidate_name"));
+                dto.setSkill(resultSet.getString("skill"));
+                dto.setCompanyName(resultSet.getString("company_name"));
+                dto.setExpectedSalary(resultSet.getDouble("expected_salary"));
+
+                jobPortalDTOList.add(dto);
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return jobPortalDTOList;
     }
 
 }

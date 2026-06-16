@@ -6,6 +6,8 @@ import com.xworkz.job.dto.JobPortalDTO;
 import com.xworkz.job.service.JobPortalService;
 import com.xworkz.job.service.JobPortalServiceImpl;
 
+import java.util.List;
+
 public class JobPortalRunner {
 
     public static void main(String[] args) {
@@ -59,5 +61,11 @@ public class JobPortalRunner {
         updateDto.setExpectedSalary(800000.0);
         int rowsUpdated = service.validateAndUpdate(updateDto);
         System.out.println("Rows Updated : " + rowsUpdated);
+
+        List<JobPortalDTO> jobPortalDetails = service.getJobPortalDetails();
+        System.out.println("Job Portal Details:");
+        for (JobPortalDTO dto4 : jobPortalDetails) {
+            System.out.println(dto4);
+        }
     }
 }

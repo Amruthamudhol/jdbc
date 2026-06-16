@@ -2,6 +2,8 @@ package com.xworkz.taxi.dao;
 
 import com.xworkz.taxi.dto.TaxiDetailsDTO;
 
+import java.util.List;
+
 public interface TaxiDetailsDAO {
     boolean save(TaxiDetailsDTO taxiDetailsDTO);
 
@@ -12,4 +14,6 @@ public interface TaxiDetailsDAO {
     boolean savebyExecuteUpdate(TaxiDetailsDTO taxiDetails);
     boolean updateByExecuteUpdate(TaxiDetailsDTO taxiDetails);
     int deleteByExecuteUpdate(TaxiDetailsDTO taxiDetails);
+
+    List<TaxiDetailsDTO> getTaxiDetails();
 }

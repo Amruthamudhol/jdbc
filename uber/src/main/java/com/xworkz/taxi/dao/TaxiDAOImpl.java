@@ -3,6 +3,8 @@ package com.xworkz.taxi.dao;
 import com.xworkz.taxi.dto.TaxiDetailsDTO;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TaxiDAOImpl implements TaxiDetailsDAO {
 
@@ -206,5 +208,45 @@ public class TaxiDAOImpl implements TaxiDetailsDAO {
         }
 
         return rowsAffected;
+    }
+
+
+    @Override
+    public List<TaxiDetailsDTO> getTaxiDetails() {
+
+        System.out.println("Invoking getTaxiDetails");
+
+        List<TaxiDetailsDTO> taxiDetailsDTOList = new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/taxi_db", "root", "4AI22CS005");
+            String query = "SELECT * FROM taxi_details";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+
+                TaxiDetailsDTO dto = new TaxiDetailsDTO();
+
+                dto.setId(resultSet.getInt("taxi_id"));
+                dto.setDriverName(resultSet.getString("driver_name"));
+                dto.setCarModel(resultSet.getString("car_model"));
+                dto.setLicensePlate(resultSet.getString("license_plate"));
+                dto.setFarePerKm(resultSet.getDouble("fare_per_km"));
+
+                taxiDetailsDTOList.add(dto);
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return taxiDetailsDTOList;
     }
 }

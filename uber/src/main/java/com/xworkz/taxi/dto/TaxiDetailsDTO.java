@@ -1,10 +1,12 @@
 package com.xworkz.taxi.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 
 public class TaxiDetailsDTO {
     private int Id;
@@ -12,4 +14,7 @@ public class TaxiDetailsDTO {
     private String CarModel;
     private String LicensePlate;
     private Double FarePerKm;
+
+
+
 }

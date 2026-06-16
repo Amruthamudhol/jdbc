@@ -3,6 +3,7 @@ package com.xworkz.hospital.service;
 import com.xworkz.hospital.dao.HospitalDetailsDAO;
 import com.xworkz.hospital.dto.HospitalDetailsDTO;
 
+import java.util.List;
 import java.util.Objects;
 
 public class HospitalServiceImpl implements HospitalService {
@@ -122,5 +123,8 @@ public class HospitalServiceImpl implements HospitalService {
         return 0;
     }
 
-
+    @Override
+    public List<HospitalDetailsDTO> getHospitalDetails() {
+        return hospitalDetailsDAO.getHospitalDetails();
+    }
 }

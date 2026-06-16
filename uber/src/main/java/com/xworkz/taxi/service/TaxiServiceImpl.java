@@ -3,6 +3,7 @@ package com.xworkz.taxi.service;
 import com.xworkz.taxi.dao.TaxiDetailsDAO;
 import com.xworkz.taxi.dto.TaxiDetailsDTO;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -114,5 +115,10 @@ public class TaxiServiceImpl implements TaxiService {
         }
 
         return 0;
+    }
+
+    @Override
+    public List<TaxiDetailsDTO> getTaxiDetails() {
+        return taxiDetailsDAO.getTaxiDetails();
     }
 }
