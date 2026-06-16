@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 
 public class TaxiDetailsDTO {
+    private int Id;
     private String DriverName;
     private String CarModel;
     private String LicensePlate;

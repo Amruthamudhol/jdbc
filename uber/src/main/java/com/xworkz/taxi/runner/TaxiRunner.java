@@ -38,5 +38,21 @@ public class TaxiRunner {
         boolean validateAndSave = service.validateAndSave(dto1);
 
         System.out.println("Taxi details saved: " + saved);
+
+        TaxiDetailsDTO dto2 = new TaxiDetailsDTO();
+        dto2.setId(4);
+        dto2.setDriverName("Amruta");
+        dto2.setCarModel("BMW");
+        dto2.setLicensePlate("KA-01-AB-1234");
+        dto2.setFarePerKm(25.0);
+
+        boolean validateAndUpdate = service.validateAndUpdate(dto2);
+        System.out.println("Taxi details updated: " + validateAndUpdate);
+
+
+        TaxiDetailsDTO dto3 = new TaxiDetailsDTO();
+        dto3.setId(1);
+        int deletedRows = service.validateAndDelete(dto3);
+        System.out.println("Rows deleted: " + deletedRows);
     }
 }

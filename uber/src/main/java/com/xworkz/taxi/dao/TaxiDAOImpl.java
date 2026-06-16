@@ -141,5 +141,70 @@ public class TaxiDAOImpl implements TaxiDetailsDAO {
 
         return isSaved;
     }
+    @Override
+    public boolean updateByExecuteUpdate(TaxiDetailsDTO taxiDetails) {
+        System.out.println("Updating taxi details : " + taxiDetails);
 
+        boolean isUpdated = false;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/taxi_db", "root", "4AI22CS005");
+
+            String updateQuery = "UPDATE taxi_details " + "SET driver_name = ?, car_model = ?, " + "license_plate = ?, fare_per_km = ? " + "WHERE taxi_id = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+
+            preparedStatement.setString(1, taxiDetails.getDriverName());
+            preparedStatement.setString(2, taxiDetails.getCarModel());
+            preparedStatement.setString(3, taxiDetails.getLicensePlate());
+            preparedStatement.setDouble(4, taxiDetails.getFarePerKm());
+            preparedStatement.setInt(5, taxiDetails.getId());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                isUpdated = true;
+                System.out.println("Data Updated Successfully");
+            }
+            preparedStatement.close();
+            connection.close();
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return isUpdated;
+    }
+
+    @Override
+    public int deleteByExecuteUpdate(TaxiDetailsDTO taxiDetails) {
+
+        System.out.println("Deleting taxi details : " + taxiDetails);
+
+        int rowsAffected = 0;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/taxi_db", "root", "4AI22CS005");
+            String deleteQuery = "DELETE FROM taxi_details WHERE taxi_id = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+            preparedStatement.setInt(1, taxiDetails.getId());
+            rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Data Deleted Successfully");
+            }
+
+            preparedStatement.close();
+            connection.close();
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return rowsAffected;
+    }
 }

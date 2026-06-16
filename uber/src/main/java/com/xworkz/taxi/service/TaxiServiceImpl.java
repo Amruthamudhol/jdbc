@@ -56,4 +56,63 @@ public class TaxiServiceImpl implements TaxiService {
 
         return false;
     }
+    @Override
+    public boolean validateAndUpdate(TaxiDetailsDTO dto) {
+
+        System.out.println("validateAndUpdate in TaxiServiceImpl");
+
+        if (Objects.nonNull(this.taxiDetailsDAO)) {
+
+            System.out.println("DAO is not null");
+
+            if (Objects.nonNull(dto)) {
+
+                int id = dto.getId();
+                String driverName = dto.getDriverName();
+                String carModel = dto.getCarModel();
+                String licensePlate = dto.getLicensePlate();
+                double farePerKm = dto.getFarePerKm();
+
+                if (id > 0
+                        && Objects.nonNull(driverName)
+                        && driverName.length() >= 3
+                        && Objects.nonNull(carModel)
+                        && carModel.length() >= 3
+                        && Objects.nonNull(licensePlate)
+                        && !licensePlate.isEmpty()
+                        && licensePlate.length() >= 8
+                        && farePerKm > 0) {
+
+                    System.out.println("DTO is valid");
+
+                    return this.taxiDetailsDAO.updateByExecuteUpdate(dto);
+                }
+
+                System.err.println("DTO is invalid");
+
+            } else {
+                System.err.println("DTO is null");
+            }
+
+        } else {
+            System.err.println("DAO is null");
+        }
+
+        return false;
+    }
+
+    @Override
+    public int validateAndDelete(TaxiDetailsDTO dto) {
+        if (Objects.nonNull(this.taxiDetailsDAO)) {
+            if (Objects.nonNull(dto)) {
+                int id = dto.getId();
+
+                if (id > 0) {
+                    return this.taxiDetailsDAO.deleteByExecuteUpdate(dto);
+                }
+            }
+        }
+
+        return 0;
+    }
 }

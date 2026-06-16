@@ -10,4 +10,6 @@ public interface TaxiDetailsDAO {
     boolean delete(TaxiDetailsDTO taxiDetailsDTO);
 
     boolean savebyExecuteUpdate(TaxiDetailsDTO taxiDetails);
+    boolean updateByExecuteUpdate(TaxiDetailsDTO taxiDetails);
+    int deleteByExecuteUpdate(TaxiDetailsDTO taxiDetails);
 }
