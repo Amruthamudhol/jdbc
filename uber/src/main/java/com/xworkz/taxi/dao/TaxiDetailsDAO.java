@@ -16,4 +16,5 @@ public interface TaxiDetailsDAO {
     int deleteByExecuteUpdate(TaxiDetailsDTO taxiDetails);
 
     List<TaxiDetailsDTO> getTaxiDetails();
+    String insertMultipleDto(List<TaxiDetailsDTO> detailsDTOs);
 }

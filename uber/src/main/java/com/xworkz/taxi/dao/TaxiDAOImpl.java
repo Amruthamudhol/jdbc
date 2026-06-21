@@ -249,4 +249,39 @@ public class TaxiDAOImpl implements TaxiDetailsDAO {
 
         return taxiDetailsDTOList;
     }
+
+
+    @Override
+    public String insertMultipleDto(List<TaxiDetailsDTO> detailsDTOs) {
+        System.out.println("Invoking insertMultipleDto()");
+        String isAdded = null;
+
+        String insertQuery = "INSERT INTO taxi_details " + "(driver_name, car_model, license_plate, fare_per_km) " + "VALUES (?, ?, ?, ?)";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/taxi_db", "root", "4AI22CS005");
+                 PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                for (TaxiDetailsDTO ref : detailsDTOs) {
+                    preparedStatement.setString(1, ref.getDriverName());
+                    preparedStatement.setString(2, ref.getCarModel());
+                    preparedStatement.setString(3, ref.getLicensePlate());
+                    preparedStatement.setDouble(4, ref.getFarePerKm());
+                    preparedStatement.addBatch();
+
+                    System.out.println(ref.getDriverName() + " is inserted");
+                }
+
+                preparedStatement.executeBatch();
+                isAdded = "Data inserted";
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return isAdded;
+    }
+
 }

@@ -6,61 +6,33 @@ import com.xworkz.taxi.dto.TaxiDetailsDTO;
 import com.xworkz.taxi.service.TaxiService;
 import com.xworkz.taxi.service.TaxiServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TaxiRunner {
     public static void main(String[] args) {
 
-        TaxiDAOImpl dao = new TaxiDAOImpl();
 
-        TaxiDetailsDTO dto = new TaxiDetailsDTO();
+        TaxiDetailsDAO dao2 = new TaxiDAOImpl();
+        List<TaxiDetailsDTO> taxiDetailsDTOList = new ArrayList<>();
 
-        dto.setDriverName("Amruta");
-        dto.setCarModel("BMW");
-        dto.setLicensePlate("KA-01-AB-1234");
-        dto.setFarePerKm(15.0);
+        TaxiDetailsDTO taxi1 = new TaxiDetailsDTO();
 
-        boolean saved = dao.save(dto);
-        System.out.println("Taxi details saved: " + saved);
+        taxi1.setDriverName("Akshata");
+        taxi1.setCarModel("Audi");
+        taxi1.setLicensePlate("KA-18-AK-2012");
+        taxi1.setFarePerKm(300.0);
 
-        dto.setFarePerKm(25.0);
-        boolean updated = dao.update(dto);
-        System.out.println("Taxi details updated: " + updated);
+        TaxiDetailsDTO taxi2 = new TaxiDetailsDTO();
 
-        boolean deleted = dao.delete(dto);
-        System.out.println("Taxi details deleted: " + deleted);
+        taxi2.setDriverName("Savita");
+        taxi2.setCarModel("Nano");
+        taxi2.setLicensePlate("KA-28-AK-2015");
+        taxi2.setFarePerKm(30.0);
 
-        TaxiDetailsDAO dao1 = new TaxiDAOImpl();
-        TaxiService service = new TaxiServiceImpl(dao1);
-        TaxiDetailsDTO dto1 = new TaxiDetailsDTO();
-        dto1.setDriverName("Amruta");
-        dto1.setCarModel("BMW");
-        dto1.setLicensePlate("KA-01-AB-1234");
-        dto1.setFarePerKm(15.0);
-        boolean validateAndSave = service.validateAndSave(dto1);
+        taxiDetailsDTOList.add(taxi1);
+        taxiDetailsDTOList.add(taxi2);
 
-        System.out.println("Taxi details saved: " + saved);
-
-        TaxiDetailsDTO dto2 = new TaxiDetailsDTO();
-        dto2.setId(4);
-        dto2.setDriverName("Amruta");
-        dto2.setCarModel("BMW");
-        dto2.setLicensePlate("KA-01-AB-1234");
-        dto2.setFarePerKm(25.0);
-
-        boolean validateAndUpdate = service.validateAndUpdate(dto2);
-        System.out.println("Taxi details updated: " + validateAndUpdate);
-
-
-        TaxiDetailsDTO dto3 = new TaxiDetailsDTO();
-        dto3.setId(1);
-        int deletedRows = service.validateAndDelete(dto3);
-        System.out.println("Rows deleted: " + deletedRows);
-
-        List<TaxiDetailsDTO> taxiDetails = service.getTaxiDetails();
-        System.out.println("Taxi Details:");
-        for (TaxiDetailsDTO dto4 : taxiDetails) {
-            System.out.println(dto4);
-        }
+        dao2.insertMultipleDto(taxiDetailsDTOList);
     }
 }
