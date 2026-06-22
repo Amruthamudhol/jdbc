@@ -10,7 +10,6 @@ import lombok.*;
 
 public class SoftwareDTO {
 
-
     private String software;
     private String currentVersion;
     private int developedYear;

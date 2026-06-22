@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 
 public class SoftwareDAOImpl  implements SoftwareDAO {
     private static final String URL = "jdbc:mysql://localhost:3306/software_details_db";
-
     private static final String USER = "root";
     private static final String PASSWORD = "4AI22CS005";
 

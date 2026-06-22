@@ -20,10 +20,8 @@ public class ExcelRunner {
 
         try (FileInputStream fis = new FileInputStream(filePath);
              Workbook workbook = new XSSFWorkbook(fis)) {
-
             Sheet sheet = workbook.getSheetAt(0);
             boolean isHeader = true;
-
             for (Row row : sheet) {
 
                 if (isHeader) {
